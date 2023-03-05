@@ -9,7 +9,7 @@ function App() {
     return (
         <>
             <EthProvider>
-                Coucou
+                Coucou et Hello !!
             </EthProvider>
         </>
     )
