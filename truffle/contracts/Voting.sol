@@ -5,6 +5,7 @@ import "../node_modules/@openzeppelin/contracts/access/Ownable.sol";
 
 contract Voting is Ownable {
 
+    /// On va faire du natspec
     uint public winningProposalID;
     
     struct Voter {
