@@ -1,28 +1,24 @@
-import { useState } from 'react'
-import { EthProvider } from "./contexts/EthContext/EthProvider";
-
-import './App.css'
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { User } from './provider/User';
-import { Workflow, WORKFLOWSTATUS} from './provider/Workflow ';
+import { useRecoilValue } from 'recoil';
+import { User, UserStatus } from './provider/User';
+import { Workflow, WORKFLOWSTATUS } from './provider/Workflow ';
+import Invalid from "./components/Pages/Invalid/Invalid";
+import ControlPanel from './components/Organisms/ControlPanel/ControlPanel';
 
 function App() {
 
     const userType = useRecoilValue(User)
-    const [workFlowStatus, setStatus] = useRecoilState(Workflow)
-
-    const nextStep = () => {
-        WORKFLOWSTATUS[workFlowStatus] != 'VotesTallied' && setStatus(workFlowStatus + 1)
+    const workFlowStatus = useRecoilValue(Workflow)
+    let component: JSX.Element;
+    if (userType === "invalid") {
+        component = <Invalid />
     }
 
+
     return (
-        <>
-            <EthProvider>
-                <p>{userType}</p>
-                <p>{WORKFLOWSTATUS[workFlowStatus]}</p>
-                <button onClick={nextStep}>NextStep</button>
-            </EthProvider>
-        </>
+        <main>
+            <ControlPanel/>
+            {component}
+        </main>
     )
 }
 

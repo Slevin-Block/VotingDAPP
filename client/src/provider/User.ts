@@ -1,6 +1,6 @@
 import { atom } from "recoil";
 
-type UserStatus = 'user' | 'admin' | 'invalid';
+export type UserStatus = 'user' | 'admin' | 'invalid';
 
 export const User= atom({
     key: 'User',

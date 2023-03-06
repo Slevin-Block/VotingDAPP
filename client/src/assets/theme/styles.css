@@ -1,0 +1,16 @@
+:root{
+    margin : 0;
+    padding : 0;
+}
+
+main {
+    width: 100vw;
+    height : 100vh;
+    background-color: darkkhaki;
+    display : flex;
+    flex-direction : column;
+}
+
+main section {
+    flex-grow : 1;
+}
