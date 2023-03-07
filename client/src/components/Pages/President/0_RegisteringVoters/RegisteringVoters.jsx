@@ -1,70 +1,58 @@
-import { useState } from 'react'
-
-import { useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup';
-import { getSchema } from './schema'
-
-import shortid from 'shortid'
-import { useRecoilState } from 'recoil'
-import { Voters } from '../../../../provider/Voters'
-
 import Button from '../../../Atoms/Button/Button'
 import IconButton from '../../../Atoms/IconButton/IconButton';
 import Input from '../../../Atoms/Input/Input';
+import { useRegisteringVoters } from './useRegisteringVoters';
 
 
 
 const RegisteringVoters = () => {
-    const [voters, setVoters] = useState([])
-    const [globalVoters, setGlobalVoters] = useRecoilState(Voters)
-    const { register, handleSubmit, formState :{errors} } = useForm({
-        defaultValues: {
-            address: '0xf78dC6022fec2AFb788D55eaF78c347BA2bf821e',
-        },
-        resolver: yupResolver(getSchema(voters.length > 0 ? voters.map(voter => voter?.address) : []))
-    })
 
-    const onSubmit = ({address}) => {
-        const newVoters = [...voters, { id: shortid.generate(), address : address.toLowerCase() }]
-        setVoters(newVoters)
-    }
+    const { register, errors, onSubmit,                           // HookForm
+            voters, globalVoters, workFlowStatus, setStatus,    // States
+            onValidate, handleDelete                            // Actions
+          } = useRegisteringVoters()
 
-    const handleDelete = (address) => {
-        setVoters(voters.filter(voter => voter.address !== address))
-        delete errors?.address?.message
-    }
-
-    const onValidate = () => {
-        setGlobalVoters(voters.map(voter => voter?.address))
-    }
 
     return (
         <section>
             <div>
-                <p>C'est le moment d'ajouter des votants !</p>
-                <form onSubmit={handleSubmit(onSubmit)} disabled={true}> 
-                    <Input
-                        register = {register}
-                        field = 'address'
-                        placeholder='adresse Ethereum'
-                        defaultValue='0xf78dC6022fec2AFb788D55eaF78c347BA2bf821e'
-                    />
-                    {typeof errors.address?.message === "string" && <p>{errors.address?.message}</p>}
-                    <Button type='submit'>Ajouter</Button>
-                </form>
+                {globalVoters.length === 0
+                    ? <>
+                        <p>C'est le moment d'ajouter des votants !</p>
+                        <form onSubmit={onSubmit}> 
+                            <Input
+                                register = {register}
+                                field = 'address'
+                                placeholder='adresse Ethereum'
+                                defaultValue='0xf78dC6022fec2AFb788D55eaF78c347BA2bf821e'
+                            />
+                            {typeof errors.address?.message === "string" && <p>{errors.address?.message}</p>}
+                            <Button type='submit'>Ajouter</Button>
+                        </form>
+                    </>
+                    : <>
+                        <p>{`Merci pour l'ajout des ${globalVoters.length} votant${globalVoters.length > 1 ?`s`:``}`}</p>
+                    </>
+                }
             </div>
 
             <div>
                 {voters.map(voter =>
                     <div key={voter.id}>
                         <p >{voter.address}</p>
-                        <IconButton
+                        {globalVoters.length === 0 && <IconButton
                             onClick={() => handleDelete(voter.address)}
-                        ></IconButton>
+                        ></IconButton>}
                     </div>
                 )}
-                    <Button onClick={onValidate} disabled={voters.length === 0}>Enregister</Button>
-
+                {globalVoters.length === 0
+                ?   <Button onClick={onValidate} isDisabled={voters.length === 0}>
+                        Enregister
+                    </Button>
+                :   <Button onClick={()=>setStatus(workFlowStatus + 1)} >
+                        Démarrer la session d'enregistrement des propositions
+                    </Button>
+                }
             </div>
         </section>
     )

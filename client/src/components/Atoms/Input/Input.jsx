@@ -1,10 +1,11 @@
 import React from 'react'
+import { Input as ChakraInput} from '@chakra-ui/react'
 
 
 const Input = ( allProps ) => {
     const {register, field, ...props} = allProps
     return (
-        <input {...register(field)} {...props}/>
+        <ChakraInput  {...register(field)} {...props} />
     )
 }
 

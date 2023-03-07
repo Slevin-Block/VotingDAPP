@@ -1,10 +1,10 @@
 import React from 'react'
-
+import { Button as ChakraButton} from '@chakra-ui/react'
 
 const Button = (allProps) => {
     const {children, ...props} = allProps
     return (
-        <button {...props}>{children}</button>
+        <ChakraButton {...props}>{children}</ChakraButton>
     )
 }
 
