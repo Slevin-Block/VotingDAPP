@@ -1,17 +1,80 @@
+@font-face {
+  font-family: "Nera";
+  src: url(../fonts/Nexa-Heavy.ttf);
+  font-style : bold;
+}
+
+@font-face {
+  font-family: "Nera";
+  src: url(../fonts/Nexa-ExtraLight.ttf);
+  font-style : lighter;
+}
+
+@font-face {
+  font-family: "Tommy";
+  src: url(../fonts/Tommy_bold.otf);
+  font-style : bolder;
+}
+@font-face {
+  font-family: "Tommy";
+  src: url(../fonts/Tommy_medium.otf);
+  font-style : bold;
+}
+@font-face {
+  font-family: "Tommy";
+  src: url(../fonts/Tommy_regular.otf);
+  font-style : normal;
+}
+@font-face {
+  font-family: "Tommy";
+  src: url(../fonts/Tommy_light.otf);
+  font-style : lighter;
+}
+
 :root{
     margin : 0;
     padding : 0;
+    --background : #111317;
+    --on-background : #1E293B;
+    --text : #FAFAFA;
+    --on-text : #B7B7B7;
+    --primary : #4B66C1;
+    --error : #7C47F5;
+    --gradient-primary: linear-gradient(119deg, rgba(5,181,212,1) 0%, rgba(51,114,215,1) 100%);
 }
-
-
 
 main {
     display : flex!important;
     flex-direction : column;
     justify-content: center;
     align-items: center;
-    background-color: darkkhaki;
+    background-color: var(--background);
     width: 100vw;
     height : 100vh;
 }
 
+section {
+    display : flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.annonce {
+    font : bold 4em "Tommy", sans-serif;
+    color : var(--text);
+}
+
+.lightAnnonce {
+    font : bold 2em "Tommy", sans-serif;
+    color : var(--text);
+}
+
+.label{
+    font : bold 1.4em "Tommy", sans-serif;
+    color : var(--text);
+}
+
+.error{
+    font : bold 1em "Tommy", sans-serif;
+    color : var(--error);
+}

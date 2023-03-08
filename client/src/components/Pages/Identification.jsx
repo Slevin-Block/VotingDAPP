@@ -3,7 +3,7 @@ import React from 'react'
 const Identification = () => {
   return (
     <section>
-        Vous n'est pas authentifié !
+        <p className='annonce'>Vous n'êtes pas authentifié !</p>
     </section>
   )
 }

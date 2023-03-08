@@ -26,8 +26,8 @@ export const useRegisteringVoters = () => {
         setVoters(newVoters)
     })(data)
 
-    const handleDelete = (address) => {
-        setVoters(voters.filter(voter => voter.address !== address))
+    const handleDelete = (id) => {
+        setVoters(voters.filter(voter => voter.id !== id))
         delete errors?.address?.message
     }
 
