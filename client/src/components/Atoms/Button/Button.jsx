@@ -4,7 +4,7 @@ import { Button as ChakraButton} from '@chakra-ui/react'
 const Button = (allProps) => {
     const {children, ...props} = allProps
     return (
-        <ChakraButton {...props}>{children}</ChakraButton>
+        <ChakraButton colorScheme='cyan' {...props}>{children}</ChakraButton>
     )
 }
 

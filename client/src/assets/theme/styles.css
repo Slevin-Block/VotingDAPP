@@ -62,6 +62,7 @@ section {
 .annonce {
     font : bold 4em "Tommy", sans-serif;
     color : var(--text);
+    text-align: center;
 }
 
 .lightAnnonce {

@@ -9,7 +9,7 @@ import PresidentrVotingSession from './components/Pages/President/2_VotingSessio
 import VotesTallied from './components/Pages/VotesTallied';
 import RegisteringVoters from './components/Pages/President/0_RegisteringVoters/RegisteringVoters';
 import Identification from './components/Pages/Identification';
-import ControlPanel from './components/Organisms/ContolPanel/ControlPanel';
+import ControlPanel from './components/Blocs/ContolPanel/ControlPanel';
 
 
 function App() {
