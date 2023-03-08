@@ -79,3 +79,7 @@ section {
     font : bold 1em "Tommy", sans-serif;
     color : var(--error);
 }
+
+p{
+    color : white;
+}

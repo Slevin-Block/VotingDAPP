@@ -1,5 +1,5 @@
 import { useRecoilValue } from 'recoil';
-import { User } from './provider/User';
+import { UserRule } from './provider/User';
 import { Workflow, WORKFLOWSTATUS } from './provider/Workflow ';
 import Waiting from './components/Pages/Voter/0_Waiting/Waiting';
 import VoterProposalsRegistration from './components/Pages/Voter/1_ProposalsRegistration/ProposalsRegistration';
@@ -14,10 +14,10 @@ import ControlPanel from './components/Blocs/ContolPanel/ControlPanel';
 
 function App() {
 
-    const {rule} = useRecoilValue(User)
+    const rule = useRecoilValue(UserRule)
     const workFlowStatus = useRecoilValue(Workflow)
     let component;
-    if (rule === "voter"){
+    if (rule === 'voter'){
         switch (WORKFLOWSTATUS[workFlowStatus]){
             case ('RegisteringVoters') : component = <Waiting />; break;
             case ('ProposalsRegistrationStarted') : component = <VoterProposalsRegistration start={true} />; break;
@@ -27,7 +27,7 @@ function App() {
             case ('VotesTallied') : component = <VotesTallied />; break;
             default : component = <div>Erreur</div>
         }
-    }else if (rule === "president"){
+    }else if (rule === 'president'){
         switch (WORKFLOWSTATUS[workFlowStatus]){
             case ('RegisteringVoters') : component = <RegisteringVoters />; break;
             case ('ProposalsRegistrationStarted') : component = <PresidentProposalsRegistration start={true} />; break;
