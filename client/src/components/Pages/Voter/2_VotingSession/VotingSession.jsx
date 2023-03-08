@@ -1,19 +1,33 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useRecoilValue } from 'recoil'
+import { Proposals } from '../../../../provider/Proposals'
+import Button from '../../../Atoms/Button/Button'
+import GroupRadio from '../../../Blocs/GroupRadio/GroupRadio'
+import styles from './VotingSession.module.css'
 
 
-const VotingSession = ({ start }) => {
+const VotingSession = () => {
+    const proposals = useRecoilValue(Proposals)
+    const [myVote, setMyVote] = useState(null)
+    const onChange = (choice) => setMyVote(choice)
+    const valideChoice = () => {console.log(myVote)}
+    
     return (
-        start ? (
-            <section>
-                Session d'enregistrement des votes
-            </section>
-        ) : (
-            <section>
-                <p>Le président finalise le dépouillement.</p>
-                <p>Vous assisterez prochainement à l'annonce de la proposition gagnante</p>
-            </section>
-        )
-
+        <section className={styles.zone} >
+            <GroupRadio
+                className={styles.box}
+                handleChange={onChange}
+                data={proposals}
+            />
+            <div className={styles.control}>
+                <Button
+                    isDisabled={myVote === null}
+                    onClick={valideChoice}
+                >
+                    Valider mon choix
+                </Button>
+            </div>
+        </section>
     )
 }
 

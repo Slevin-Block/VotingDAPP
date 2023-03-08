@@ -41,6 +41,7 @@
     --primary : #4B66C1;
     --error : #7C47F5;
     --gradient-primary: linear-gradient(119deg, rgba(5,181,212,1) 0%, rgba(51,114,215,1) 100%);
+    --chakra-colors-chakra-body-text : var(--text)!important;
 }
 
 main {

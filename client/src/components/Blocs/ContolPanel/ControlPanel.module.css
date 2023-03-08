@@ -26,3 +26,8 @@
     flex-direction : row;
 
 }
+
+.input{
+    width : 400px!important;
+    color : white;
+}
