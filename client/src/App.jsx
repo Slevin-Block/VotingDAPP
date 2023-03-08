@@ -14,10 +14,10 @@ import ControlPanel from './components/Blocs/ContolPanel/ControlPanel';
 
 function App() {
 
-    const userType = useRecoilValue(User)
+    const {rule} = useRecoilValue(User)
     const workFlowStatus = useRecoilValue(Workflow)
     let component;
-    if (userType === "voter"){
+    if (rule === "voter"){
         switch (WORKFLOWSTATUS[workFlowStatus]){
             case ('RegisteringVoters') : component = <Waiting />; break;
             case ('ProposalsRegistrationStarted') : component = <VoterProposalsRegistration start={true} />; break;
@@ -27,7 +27,7 @@ function App() {
             case ('VotesTallied') : component = <VotesTallied />; break;
             default : component = <div>Erreur</div>
         }
-    }else if (userType === "president"){
+    }else if (rule === "president"){
         switch (WORKFLOWSTATUS[workFlowStatus]){
             case ('RegisteringVoters') : component = <RegisteringVoters />; break;
             case ('ProposalsRegistrationStarted') : component = <PresidentProposalsRegistration start={true} />; break;

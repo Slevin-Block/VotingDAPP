@@ -5,24 +5,31 @@ import { useRecoilState } from 'recoil'
 import { User } from '../../../provider/User.js'
 import Button from '../../Atoms/Button/Button';
 import { Box, Group, ButtonsGroup, Title } from './ControlPanel.style'
+import Input from '../../Atoms/Input/Input';
 
 const ControlPanel = () => {
 
-    const [userType, setUserType] = useRecoilState(User)
+    const [user, setUser] = useRecoilState(User)
     const [workFlowStatus, setStatus] = useRecoilState(Workflow)
     const nextStep = () => {
         WORKFLOWSTATUS[workFlowStatus] !== 'VotesTallied' && setStatus(workFlowStatus + 1)
+    }
+
+    const handleChange = () => {
+    
     }
 
     return (
         <Box>
             <Title>CONTROL PANEL</Title>
             <Group>
-                <p>{userType}</p>
+                <p>{user.rule}</p>
                 <ButtonsGroup>
-                    <Button onClick={() => setUserType("voter")}>voter</Button>
-                    <Button onClick={() => setUserType("president")}>president</Button>
+                    <Button onClick={()  => setUser({...user, rule : "voter"})}>voter</Button>
+                    <Button onClick={()  => setUser({...user, rule : "president"})}>president</Button>
                 </ButtonsGroup>
+                <p>{user.address}</p>
+                <Input onChange={(e)  => setUser({...user, address : e.target.value})}/>
             </Group>
             <Group>
                 <p>{WORKFLOWSTATUS[workFlowStatus]}</p>

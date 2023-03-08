@@ -8,7 +8,7 @@ const Input = ( allProps ) => {
     return (
         <ChakraInput
             className={styles.input}
-            {...register(field)}
+            {...(register ? register(field) : {})}
             {...props}
         />
     )

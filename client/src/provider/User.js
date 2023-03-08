@@ -2,5 +2,5 @@ import { atom } from "recoil";
 
 export const User= atom({
     key: 'User',
-    default: null, // 'voter' | 'president' | null
+    default: {address : null, rule : null}, // 'voter' | 'president' | null
 });
