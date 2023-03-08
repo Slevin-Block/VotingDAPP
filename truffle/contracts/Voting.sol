@@ -117,7 +117,7 @@ contract Voting is Ownable {
     // ::::::::::::: STATE ::::::::::::: //
 
     /// @notice Start the proposal registration
-    /// @dev Change the workflowStatus to ProposalsRegistrationStarted, workflowStatus check, add a default proposal, emit an event WorkflowStatusChange with new status status and old status.
+    /// @dev Change the workflowStatus to ProposalsRegistrationStarted, workflowStatus check, add a default proposal, emit an event WorkflowStatusChange with new status status and old status. Only called by owner
     function startProposalsRegistering() external onlyOwner {
         require(workflowStatus == WorkflowStatus.RegisteringVoters, 'Registering proposals cant be started now');
         workflowStatus = WorkflowStatus.ProposalsRegistrationStarted;
@@ -130,7 +130,7 @@ contract Voting is Ownable {
     }
 
     /// @notice Close the proposal registration
-    /// @dev Change the workflowStatus to ProposalsRegistrationEnded, workflowStatus check,emit an event WorkflowStatusChange with new status status and old status.
+    /// @dev Change the workflowStatus to ProposalsRegistrationEnded, workflowStatus check,emit an event WorkflowStatusChange with new status status and old status. Only called by owner
     function endProposalsRegistering() external onlyOwner {
         require(workflowStatus == WorkflowStatus.ProposalsRegistrationStarted, 'Registering proposals havent started yet');
         workflowStatus = WorkflowStatus.ProposalsRegistrationEnded;
@@ -138,19 +138,23 @@ contract Voting is Ownable {
     }
 
     /// @notice Start the voting session
-    /// @dev Change the workflowStatus to VotingSessionStarted, workflowStatus check,emit an event WorkflowStatusChange with new status status and old status.
+    /// @dev Change the workflowStatus to VotingSessionStarted, workflowStatus check,emit an event WorkflowStatusChange with new status status and old status. Only called by owner
     function startVotingSession() external onlyOwner {
         require(workflowStatus == WorkflowStatus.ProposalsRegistrationEnded, 'Registering proposals phase is not finished');
         workflowStatus = WorkflowStatus.VotingSessionStarted;
         emit WorkflowStatusChange(WorkflowStatus.ProposalsRegistrationEnded, WorkflowStatus.VotingSessionStarted);
     }
 
+    /// @notice Close the voting session
+    /// @dev Change the workflowStatus to VotingSessionEnded, workflowStatus check,emit an event WorkflowStatusChange with new status status and old status. Only called by owner
     function endVotingSession() external onlyOwner {
         require(workflowStatus == WorkflowStatus.VotingSessionStarted, 'Voting session havent started yet');
         workflowStatus = WorkflowStatus.VotingSessionEnded;
         emit WorkflowStatusChange(WorkflowStatus.VotingSessionStarted, WorkflowStatus.VotingSessionEnded);
     }
 
+    /// @notice Tally the vote and close the vote
+    /// @dev set the winner, return the winner id, workflowStatus check,emit an event WorkflowStatusChange with new status status and old status. Only called by owner
    function tallyVotes() external onlyOwner {
         require(workflowStatus == WorkflowStatus.VotingSessionEnded, "Current status is not voting session ended");
         uint _winningProposalId;
