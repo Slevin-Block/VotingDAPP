@@ -11,9 +11,11 @@ import RegisteringVoters from './components/Pages/President/0_RegisteringVoters/
 import Identification from './components/Pages/Identification';
 import ControlPanel from './components/Blocs/ContolPanel/ControlPanel';
 
+import useEth from "./contexts/EthContext/useEth";
 
 function App() {
 
+    const { state: { contract,accounts,web3 } } = useEth();
     const rule = useRecoilValue(UserRule)
     const workFlowStatus = useRecoilValue(Workflow)
     let component;
@@ -44,7 +46,11 @@ function App() {
 
     return (
         <main>
-            <ControlPanel/>
+            <ControlPanel 
+                contract={contract}
+                accounts={accounts}
+                web3={web3} 
+            />
             {component}
         </main>
     )
