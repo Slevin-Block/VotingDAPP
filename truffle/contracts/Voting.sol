@@ -23,6 +23,11 @@ contract Voting is Ownable {
         uint voteCount;
     }
 
+    struct WinnerProposal {
+        uint id;
+        uint voteCount;
+    }
+
     enum  WorkflowStatus {
         RegisteringVoters,
         ProposalsRegistrationStarted,
@@ -34,6 +39,8 @@ contract Voting is Ownable {
 
     WorkflowStatus public workflowStatus;
     Proposal[] proposalsArray;
+    WinnerProposal[] proposalsWinnerArray;
+
     mapping (address => Voter) voters;
 
 
@@ -111,6 +118,18 @@ contract Voting is Ownable {
         voters[msg.sender].hasVoted = true;
         proposalsArray[_id].voteCount++;
 
+        //Set the winner during the vote
+        if(proposalsArray[_id].voteCount>=proposalsWinnerArray[0].voteCount){
+            if(proposalsArray[_id].voteCount>proposalsWinnerArray[0].voteCount){
+                delete proposalsWinnerArray;
+            }
+
+            WinnerProposal memory winerProposal;
+            winerProposal.id=_id;
+            winerProposal.voteCount=proposalsArray[_id].voteCount;
+            proposalsWinnerArray.push(winerProposal);
+        }
+
         emit Voted(msg.sender, _id);
     }
 
@@ -125,6 +144,11 @@ contract Voting is Ownable {
         Proposal memory proposal;
         proposal.description = "GENESIS";
         proposalsArray.push(proposal);
+        
+        WinnerProposal memory winerProposal;
+        winerProposal.id=0;
+        winerProposal.voteCount=0;
+        proposalsWinnerArray.push(winerProposal);
         
         emit WorkflowStatusChange(WorkflowStatus.RegisteringVoters, WorkflowStatus.ProposalsRegistrationStarted);
     }
@@ -157,14 +181,13 @@ contract Voting is Ownable {
     /// @dev set the winner, return the winner id, workflowStatus check,emit an event WorkflowStatusChange with new status status and old status. Only called by owner
    function tallyVotes() external onlyOwner {
         require(workflowStatus == WorkflowStatus.VotingSessionEnded, "Current status is not voting session ended");
-        uint _winningProposalId;
-        for (uint256 p = 0; p < proposalsArray.length; p++) {
-            if (proposalsArray[p].voteCount > proposalsArray[_winningProposalId].voteCount) {
-                _winningProposalId = p;
-            }
+              
+        if(proposalsWinnerArray.length>1){
+            winningProposalID = 0;
+        }else{
+            winningProposalID = proposalsWinnerArray[0].id;
         }
-        winningProposalID = _winningProposalId;
-       
+
         workflowStatus = WorkflowStatus.VotesTallied;
         emit WorkflowStatusChange(WorkflowStatus.VotingSessionEnded, WorkflowStatus.VotesTallied);
     }
