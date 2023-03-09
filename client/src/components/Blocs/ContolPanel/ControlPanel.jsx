@@ -7,12 +7,12 @@ import Button from '../../Atoms/Button/Button';
 import styles from './ControlPanel.module.css'
 //import Input from '../../Atoms/Input/Input';
 
-import useEth from "../../../contexts/EthContext/useEth";
+
 import { useEffect } from "react";
 
-const ControlPanel = () => {
+const ControlPanel = (props) => {
 
-    const { state: { contract,accounts } } = useEth();
+    
     const [ownerAddress, setOwnerAddress] = useRecoilState(OwnerAddress)
     const [address, setAddress] = useRecoilState(UserAddress)
     const rule = useRecoilValue(UserRule)
@@ -22,11 +22,9 @@ const ControlPanel = () => {
     }
     
     const LoadAddress = async () => {
-        const ownerAddress = await contract.methods.owner().call({ from: accounts[0] })
+        const ownerAddress = await props.contract.methods.owner().call({ from: props.accounts[0] })
         setOwnerAddress(ownerAddress)
-        setAddress(accounts[0])
-
-        console.log(contract)
+        setAddress(props.accounts[0])
     }
   
     useEffect(() => {
