@@ -12,7 +12,7 @@ const RegisteringVoters = () => {
             onValidate, handleDelete                            // Actions
           } = useRegisteringVoters()
 
-
+    console.log(globalVoters)
     return (
         <section className={styles.zone}>
             <div className={styles.leftPart}>
