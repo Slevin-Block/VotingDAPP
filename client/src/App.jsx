@@ -1,5 +1,5 @@
-import { useRecoilValue } from 'recoil';
-import { UserRule } from './provider/User';
+import { useRecoilState,useRecoilValue } from 'recoil';
+import { OwnerAddress, UserAddress,UserRule } from './provider/User';
 import { Workflow, WORKFLOWSTATUS } from './provider/Workflow ';
 import Waiting from './components/Pages/Voter/0_Waiting/Waiting';
 import VoterProposalsRegistration from './components/Pages/Voter/1_ProposalsRegistration/ProposalsRegistration';
@@ -10,12 +10,26 @@ import VotesTallied from './components/Pages/VotesTallied';
 import RegisteringVoters from './components/Pages/President/0_RegisteringVoters/RegisteringVoters';
 import Identification from './components/Pages/Identification';
 import ControlPanel from './components/Blocs/ContolPanel/ControlPanel';
-
+import { useEffect } from "react";
 import useEth from "./contexts/EthContext/useEth";
 
 function App() {
 
-    const { state: { contract,accounts,web3 } } = useEth();
+    const { state: { contract, accounts } } = useEth()
+    const [ownerAddress, setOwnerAddress] = useRecoilState(OwnerAddress)
+    const [address, setAddress] = useRecoilState(UserAddress)
+    const LoadAddress = async () => {
+        let owner = await contract.methods.owner().call({ from: accounts[0] })
+        setOwnerAddress(owner)
+        setAddress(accounts[0])
+    }
+  
+    useEffect(() => {
+        if (contract?.methods) {
+            LoadAddress();
+        }
+    });
+
     const rule = useRecoilValue(UserRule)
     const workFlowStatus = useRecoilValue(Workflow)
     let component;
@@ -46,11 +60,7 @@ function App() {
 
     return (
         <main>
-            <ControlPanel 
-                contract={contract}
-                accounts={accounts}
-                web3={web3} 
-            />
+            <ControlPanel/>
             {component}
         </main>
     )
