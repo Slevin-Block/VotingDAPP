@@ -28,7 +28,9 @@ const ControlPanel = (props) => {
     }
   
     useEffect(() => {
-        LoadAddress();
+        if (props.contract?.methods) {
+            LoadAddress();
+        }
     });
     
     return (
