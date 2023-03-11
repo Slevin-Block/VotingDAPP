@@ -1,10 +1,10 @@
 import useEth from "../contexts/EthContext/useEth";
 
+const { state: { contract } } = useEth()
 
-export const useUtilsEvents = () => {
-  const { state: { contract } } = useEth()
+export const useUtilsEvents = {
 
-  const eventVoterRegistered = async () => {
+  eventVoterRegistered : async () => {
       await contract.getPastEvents('VoterRegistered',
         {
           fromBlock: 0,
@@ -12,9 +12,9 @@ export const useUtilsEvents = () => {
         (err, events) => {
           return events;
         });
-  };
+  },
 
-  const eventWorkflowStatusChange = async () => {
+  eventWorkflowStatusChange : async () => {
       await contract.getPastEvents('VoterRegistered',
         {
           fromBlock: 0,
@@ -22,9 +22,9 @@ export const useUtilsEvents = () => {
         (err, events) => {
           return events;
         });
-  };
+  },
 
-  const eventProposalRegistered = async () => {
+  eventProposalRegistered : async () => {
       await contract.getPastEvents('VoterRegistered',
         {
           fromBlock: 0,
@@ -32,9 +32,9 @@ export const useUtilsEvents = () => {
         (err, events) => {
           return events;
         });
-  };
+  },
 
-  const eventVoted = async () => {
+  eventVoted : async () => {
       await contract.getPastEvents('VoterRegistered',
         {
           fromBlock: 0,
@@ -42,5 +42,5 @@ export const useUtilsEvents = () => {
         (err, events) => {
           return events;
         });
-  };
+  },
 }

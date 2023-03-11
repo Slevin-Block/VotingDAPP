@@ -10,7 +10,12 @@ import { Voters } from '../../../../provider/Voters'
 import { Workflow } from '../../../../provider/Workflow ';
 
 export const useRegisteringVoters = () => {
-    const [voters, setVoters] = useState([])
+
+
+
+    const [voters, setVoters] = useState([  {id : 0, address :'0xa6d5E0E997164e037dcb28ea9Ca0CD8AEd38db2D'},
+                                            {id : 1, address :'0x196deDD781fDfcEcC29F14ad95BF45BC41B3e745'},
+                                            {id : 2, address :'0x2363f5e9E6f8a89670B199DdaFD0e363baF843B5'} ])
     const [globalVoters, setGlobalVoters] = useRecoilState(Voters)
     const [workFlowStatus, setStatus] = useRecoilState(Workflow)
 

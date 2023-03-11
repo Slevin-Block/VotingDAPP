@@ -17,18 +17,26 @@ function App() {
 
     const { state: { contract, accounts } } = useEth()
     const [ownerAddress, setOwnerAddress] = useRecoilState(OwnerAddress)
-    const [address, setAddress] = useRecoilState(UserAddress)
-    const LoadAddress = async () => {
-        let owner = await contract.methods.owner().call({ from: accounts[0] })
-        setOwnerAddress(owner)
-        setAddress(accounts[0])
-    }
+    const [, setAddress] = useRecoilState(UserAddress)
+
   
+    // Load Owner Address and Current Address
     useEffect(() => {
-        if (contract?.methods) {
-            LoadAddress();
+        if (ownerAddress === null){
+            (async()=>{
+                const owner = await contract.methods.owner().call({ from: accounts[0] })
+                setOwnerAddress(owner.toLowerCase())
+                setAddress(accounts[0])
+            })()
         }
-    });
+    }, [accounts])
+
+
+    // Monitoring changes in status
+    useEffect(() => {
+        
+    }, [])
+
 
     const rule = useRecoilValue(UserRule)
     const workFlowStatus = useRecoilValue(Workflow)
@@ -60,7 +68,7 @@ function App() {
 
     return (
         <main>
-            <ControlPanel/>
+            {/* <ControlPanel/> */}
             {component}
         </main>
     )
