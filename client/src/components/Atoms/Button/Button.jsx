@@ -1,10 +1,13 @@
 import React from 'react'
+import styles from './Button.module.css'
 import { Button as ChakraButton} from '@chakra-ui/react'
 
 const Button = (allProps) => {
-    const {children, ...props} = allProps
+    const {children, className : externalClass, ...props} = allProps
     return (
-        <ChakraButton colorScheme='cyan' {...props}>{children}</ChakraButton>
+        <button {...props} className={`${styles.button} ${externalClass}`}>
+            {children}
+        </button>
     )
 }
 

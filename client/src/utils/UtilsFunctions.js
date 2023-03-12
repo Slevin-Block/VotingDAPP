@@ -1,24 +1,24 @@
 import useEth from "../contexts/EthContext/useEth";
 
-const { state: { contract, accounts,web3 } } = useEth()
+export const useUtilsFunctions = () => {
 
-export const useUtilsFunctions = {
+    const { state: { contract, accounts,web3 } } = useEth()
 
-
-    addVoter : async (address) => {
+    const addVoter = async (address) => {
+        console.log('ADDR', address)
         if (!web3.utils.isAddress(address)) {
             return false
         }
 
         try{
-            await contract.methods.addVoter(address).send({ from: accounts[0] });
+            await contract.methods.addVoter(address.toLowerCase()).send({ from: accounts[0] });
             return true
         }catch(err){
             return false
         }
-    },
+    };
 
-    addProposal : async (proposalDescription) => {
+    const addProposal = async (proposalDescription) => {
         if (proposalDescription==="") {
             return false
         }
@@ -29,9 +29,9 @@ export const useUtilsFunctions = {
         }catch(err){
             return false
         }
-    },
+    };
 
-    setVote : async (proposalId) => {
+    const setVote = async (proposalId) => {
         if (proposalId<1) {
             return false
         }
@@ -42,58 +42,62 @@ export const useUtilsFunctions = {
         }catch(err){
             return false
         }
-    },
+    };
 
-    startProposalsRegistering : async () => {
+    const startProposalsRegistering = async () => {
         try{
             await contract.methods.startProposalsRegistering().send({ from: accounts[0] });
             return true
         }catch(err){
             return false
         }
-    },
+    };
 
-    endProposalsRegistering : async () => {
+    const endProposalsRegistering = async () => {
         try{
             await contract.methods.endProposalsRegistering().send({ from: accounts[0] });
             return true
         }catch(err){
             return false
         }
-    },
+    };
 
-    startVotingSession : async () => {
+    const startVotingSession = async () => {
         try{
             await contract.methods.startVotingSession().send({ from: accounts[0] });
             return true
         }catch(err){
             return false
         }
-    },
+    };
 
-    endVotingSession : async () => {
+    const endVotingSession = async () => {
         try{
             await contract.methods.endVotingSession().send({ from: accounts[0] });
             return true
         }catch(err){
             return false
         }
-    },
+    };
 
-    tallyVotes : async () => {
+    const tallyVotes = async () => {
         try{
             await contract.methods.tallyVotes().send({ from: accounts[0] });
             return true
         }catch(err){
             return false
         }
-    },
+    };
 
-    getWinner : async () => {
+    const getWinner = async () => {
         try{
             return contract.methods.winningProposalID().call({ from: accounts[0] });
         }catch(err){
             return 0
         }
-    },
+    };
+
+    return { addVoter, addProposal, setVote, getWinner, 
+             startProposalsRegistering, endProposalsRegistering,
+             startVotingSession, endVotingSession,tallyVotes }
 }

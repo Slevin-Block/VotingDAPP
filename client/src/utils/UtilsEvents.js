@@ -1,46 +1,48 @@
 import useEth from "../contexts/EthContext/useEth";
 
-const { state: { contract } } = useEth()
 
-export const useUtilsEvents = {
+export const useUtilsEvents = () => {
+    const { state: { contract } } = useEth()
 
-  eventVoterRegistered : async () => {
-      await contract.getPastEvents('VoterRegistered',
-        {
-          fromBlock: 0,
-        },
-        (err, events) => {
-          return events;
-        });
-  },
+    const eventVoterRegistered = async () => {
+        await contract.getPastEvents('VoterRegistered',
+            {
+                fromBlock: 0,
+            },
+            (err, events) => {
+                return events;
+            });
+    };
 
-  eventWorkflowStatusChange : async () => {
-      await contract.getPastEvents('VoterRegistered',
-        {
-          fromBlock: 0,
-        },
-        (err, events) => {
-          return events;
-        });
-  },
+    const eventWorkflowStatusChange = async () => {
+        await contract.getPastEvents('VoterRegistered',
+            {
+                fromBlock: 0,
+            },
+            (err, events) => {
+                return events;
+            });
+    };
 
-  eventProposalRegistered : async () => {
-      await contract.getPastEvents('VoterRegistered',
-        {
-          fromBlock: 0,
-        },
-        (err, events) => {
-          return events;
-        });
-  },
+    const eventProposalRegistered = async () => {
+        await contract.getPastEvents('VoterRegistered',
+            {
+                fromBlock: 0,
+            },
+            (err, events) => {
+                return events;
+            });
+    };
 
-  eventVoted : async () => {
-      await contract.getPastEvents('VoterRegistered',
-        {
-          fromBlock: 0,
-        },
-        (err, events) => {
-          return events;
-        });
-  },
+    const eventVoted = async () => {
+        await contract.getPastEvents('VoterRegistered',
+            {
+                fromBlock: 0,
+            },
+            (err, events) => {
+                return events;
+            });
+    };
+
+    return {eventVoterRegistered, eventWorkflowStatusChange , eventProposalRegistered, eventVoted}
 }

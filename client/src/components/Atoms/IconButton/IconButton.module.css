@@ -1,0 +1,13 @@
+.base{
+    display : flex;
+    justify-content: center;
+    align-items: center;
+    margin-left : 0.5rem;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+}
+
+.icon{
+    color: var(--text);
+}
