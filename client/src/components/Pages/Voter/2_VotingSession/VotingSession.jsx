@@ -21,7 +21,7 @@ const VotingSession = () => {
             />
             <div className={styles.control}>
                 <Button
-                    isDisabled={myVote === null}
+                    disabled={myVote === null}
                     onClick={valideChoice}
                 >
                     Valider mon choix

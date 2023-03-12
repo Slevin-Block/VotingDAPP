@@ -10,7 +10,7 @@ export const WORKFLOWSTATUS = [
     ]
 
 
-export const Workflow  = atom({
-    key: 'WorkflowStatus ',
-    default : 0/* 0 */,
+export const Workflow = atom({
+    key: 'Workflow ',
+    default : null,
 })

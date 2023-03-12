@@ -1,64 +1,65 @@
+import { useState } from 'react';
 import Button from '../../../Atoms/Button/Button'
 import IconButton from '../../../Atoms/IconButton/IconButton';
 import Input from '../../../Atoms/Input/Input';
-import { useRegisteringVoters } from './useRegisteringVoters';
 import styles from './RegisteringVoters.module.css'
-
-
+import { useRegisteringVoters } from './useRegisteringVoters'
 const RegisteringVoters = () => {
 
     const { register, errors, onSubmit,                         // HookForm
-            voters, globalVoters, workFlowStatus, setStatus,    // States
-            onValidate, handleDelete                            // Actions
+            voters, globalVoters,                               // States
+            onValidate, handleDelete, startProposalsRegistering // Actions
           } = useRegisteringVoters()
 
-    console.log(globalVoters)
     return (
         <section className={styles.zone}>
             <div className={styles.leftPart}>
-                {globalVoters.length === 0
-                    ? <>
-                        <form onSubmit={onSubmit} className={styles.form}>
-                            <div>
-                                <label className='label'>Ajouter des votants :</label>
-                                <Input
-                                    register = {register}
-                                    field = 'address'
-                                    placeholder='adresse Ethereum'
-                                />
-                                {typeof errors.address?.message === "string" && <p className='error'>{errors.address?.message}</p>}
-                            </div>
-                            <Button type='submit' className={styles.button}>Ajouter</Button>
-                        </form>
-                    </>
-                    : <>
-                        <p className='lightAnnonce'>{`Merci pour l'ajout des ${globalVoters.length} votant${globalVoters.length > 1 ?`s`:``}`}</p>
-                    </>
-                }
+                <form onSubmit={onSubmit} className={styles.form}>
+                    <div>
+                        <label className='label'>Ajouter des votants :</label>
+                        <Input
+                            register = {register}
+                            field = 'address'
+                            placeholder='adresse Ethereum'
+                        />
+                        {typeof errors.address?.message === "string" && <p className='error'>{errors.address?.message}</p>}
+                    </div>
+                    <Button type='submit' className={styles.button}>Ajouter</Button>
+                </form>
             </div>
 
             <div className={styles.rightPart}>
                 <div className={styles.list}>
+                    {voters.length === 0 && <p>Veuillez renseigner des adresses de votant</p>}
                     {voters.map(voter =>
                         <div key={voter.id} className={styles.item}>
                             <p className={styles.text}>{voter.address}</p>
-                            {globalVoters.length === 0 &&
+                            <>
                                 <IconButton
+                                    icon = 'trash'
                                     className={styles.delete}
                                     onClick={() => handleDelete(voter.id)}
+                                    disabled={globalVoters.includes(voter.address)}
                                 ></IconButton>
-                            }
+                                <IconButton
+                                    icon = 'check'
+                                    className={styles.check}
+                                    onClick={() => onValidate(voter.address)}
+                                    disabled={globalVoters.includes(voter.address)}
+                                ></IconButton>
+                                <IconButton
+                                    icon = 'checks'
+                                    className={styles.validate}
+                                    hidden={!globalVoters.includes(voter.address)}
+                                    disabled
+                                ></IconButton>
+                            </>
                         </div>
                     )}
                 </div>
-                {globalVoters.length === 0
-                ?   <Button onClick={onValidate} isDisabled={voters.length === 0}>
-                        Enregister
-                    </Button>
-                :   <Button onClick={()=>setStatus(workFlowStatus + 1)} >
-                        Démarrer la session d'enregistrement des propositions
-                    </Button>
-                }
+                <Button onClick={startProposalsRegistering} disabled={globalVoters.length === 0}>
+                    Démarrer la session d'enregistrement des propositions
+                </Button>
             </div>
         </section>
     )

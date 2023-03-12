@@ -21,12 +21,12 @@ const ProposalsRegistration = ({ start }) => {
                     )}
                 </div>
                 {(proposals.length > 0 && workFlowStatus ===1) &&
-                    <Button onClick={()=>setStatus(workFlowStatus + 1)} isDisabled={proposals.length === 0}>
+                    <Button onClick={()=>setStatus(workFlowStatus + 1)} disabled={proposals.length === 0}>
                         Cloturer la session d'enregistrement des propositions
                     </Button>
                 }
                 {(workFlowStatus ===2) &&
-                    <Button onClick={()=>setStatus(workFlowStatus + 1)} isDisabled={proposals.length === 0}>
+                    <Button onClick={()=>setStatus(workFlowStatus + 1)} disabled={proposals.length === 0}>
                         Démarrer la session de vote
                     </Button>
                 }

@@ -8,17 +8,17 @@ export const OwnerAddress = atom({
 
 export const UserAddress= atom({
     key: 'UserAddress',
-    default: /* '0xf78dc6022fec2afb788d55eaf78c347ba2bf821a' */null, // 'voter' | 'president' | null
+    default: null,
 });
 
 export const UserRule = selector({ 
     key : 'UserRule',
     get : ({get}) => {
         const addr = get(UserAddress);
-        const voters = get(Voters);
         const contractOwner = get(OwnerAddress);
-        if (addr === null) return null
-        if (addr.toLowerCase() === contractOwner) return 'president'
+        const voters = get(Voters);
+        if (addr === null || contractOwner === null) return null
+        if (addr.toLowerCase() === contractOwner.toLowerCase()) return 'president'
         if (voters.includes(addr.toLowerCase())) return 'voter'
         return null
     }

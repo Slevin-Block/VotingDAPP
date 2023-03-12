@@ -5,12 +5,13 @@ export const useUtilsFunctions = () => {
     const { state: { contract, accounts,web3 } } = useEth()
 
     const addVoter = async (address) => {
+        console.log('ADDR', address)
         if (!web3.utils.isAddress(address)) {
             return false
         }
 
         try{
-            await contract.methods.addVoter(address).send({ from: accounts[0] });
+            await contract.methods.addVoter(address.toLowerCase()).send({ from: accounts[0] });
             return true
         }catch(err){
             return false
@@ -95,4 +96,8 @@ export const useUtilsFunctions = () => {
             return 0
         }
     };
+
+    return { addVoter, addProposal, setVote, getWinner, 
+             startProposalsRegistering, endProposalsRegistering,
+             startVotingSession, endVotingSession,tallyVotes }
 }
