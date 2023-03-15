@@ -14,7 +14,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width : 40%;
+    width : 45%;
     height: 100%;
 }
 
@@ -23,7 +23,7 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    width : 28rem;
+    width : 45%;
     height: 100%;
 }
 

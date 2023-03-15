@@ -11,10 +11,8 @@ import { theme } from './assets/theme/theme';
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <RecoilRoot>
-        <EthProvider>
-            <ChakraProvider theme={theme}>
-                <App />
-            </ChakraProvider>
-        </EthProvider>
+        <ChakraProvider theme={theme}>
+            <App />
+        </ChakraProvider>
     </RecoilRoot>
 )

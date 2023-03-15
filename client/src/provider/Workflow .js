@@ -12,5 +12,5 @@ export const WORKFLOWSTATUS = [
 
 export const Workflow = atom({
     key: 'Workflow ',
-    default : null,
+    default : undefined,
 })

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Button from '../../../Atoms/Button/Button'
 import IconButton from '../../../Atoms/IconButton/IconButton';
 import Input from '../../../Atoms/Input/Input';
@@ -10,6 +9,8 @@ const RegisteringVoters = () => {
             voters, globalVoters,                               // States
             onValidate, handleDelete, startProposalsRegistering // Actions
           } = useRegisteringVoters()
+
+    console.log(globalVoters)
 
     return (
         <section className={styles.zone}>

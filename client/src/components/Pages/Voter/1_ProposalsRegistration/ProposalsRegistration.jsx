@@ -6,12 +6,14 @@ import { useProposalsRegistration } from './useProposalsRegistration';
 import styles from './ProposalsRegistration.module.css'
 
 
-const ProposalsRegistration = ({ start = true }) => {
+const ProposalsRegistration = () => {
 
     const { register, errors, onSubmit, // Hook Form
             proposals, globalProposals, workFlowStatus,  // State
             onValidate, handleDelete    // Actions
           } = useProposalsRegistration()
+
+    console.log(globalProposals)
 
     if (workFlowStatus === 2) return (
             <section>
@@ -22,9 +24,9 @@ const ProposalsRegistration = ({ start = true }) => {
 
     if (workFlowStatus === 1) return (
         <section className={styles.zone}>
+            coucou
             <div className={styles.leftPart}>
-                {globalProposals.length === 0
-                    ? <form onSubmit={onSubmit} className={styles.form}>
+                <form onSubmit={onSubmit} className={styles.form}>
                             <div>
                                 <label className='label'>Ajouter des propositions :</label>
                                 <Input
@@ -36,9 +38,8 @@ const ProposalsRegistration = ({ start = true }) => {
                             </div>
                             <Button type='submit' className={styles.button}>Ajouter</Button>
                         </form>
-                    : <p className='lightAnnonce'>{`Merci pour l'ajout des ${globalProposals.length} proposition${globalProposals.length > 1 ?`s`:``}`}</p>
+                     {/* <p className='lightAnnonce'>{`Merci pour l'ajout des ${globalProposals.length} proposition${globalProposals.length > 1 ?`s`:``}`}</p> */}
                     
-                }
             </div>
 
             <div className={styles.rightPart}>

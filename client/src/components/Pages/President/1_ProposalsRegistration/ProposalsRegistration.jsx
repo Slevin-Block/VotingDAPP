@@ -6,7 +6,7 @@ import Button from '../../../Atoms/Button/Button'
 import styles from './ProposalsRegistration.module.css'
 
 
-const ProposalsRegistration = ({ start }) => {
+const ProposalsRegistration = () => {
 
     
     const proposals = useRecoilValue(Proposals)
@@ -15,6 +15,7 @@ const ProposalsRegistration = ({ start }) => {
 
     return (
         <div className={styles.part}>
+                <p>Liste des propositions</p>
                 <div className={styles.list}>
                     {proposals.map((proposal, i) =>
                             <p key={i} className={styles.text}>{proposal}</p>

@@ -1,6 +1,10 @@
-import { useRecoilState,useRecoilValue } from 'recoil';
-import { OwnerAddress, UserAddress,UserRule } from './provider/User';
+import { useState, useEffect } from "react";
+import { useRxWeb3 } from './contexts/RxWeb3';
+import { useRecoilState } from "recoil";
+
 import { Workflow, WORKFLOWSTATUS } from './provider/Workflow ';
+import { Voters } from "./provider/Voters";
+
 import Waiting from './components/Pages/Voter/0_Waiting/Waiting';
 import VoterProposalsRegistration from './components/Pages/Voter/1_ProposalsRegistration/ProposalsRegistration';
 import VoterVotingSession from './components/Pages/Voter/2_VotingSession/VotingSession';
@@ -9,90 +13,50 @@ import PresidentrVotingSession from './components/Pages/President/2_VotingSessio
 import VotesTallied from './components/Pages/VotesTallied';
 import RegisteringVoters from './components/Pages/President/0_RegisteringVoters/RegisteringVoters';
 import Identification from './components/Pages/Identification';
-import { useState, useEffect } from "react";
-import useEth from "./contexts/EthContext/useEth";
-import Loading from './components/Pages/Loading';
-import {useUtilsEvents} from './utils/UtilsEvents'
-import { Voters } from './provider/Voters';
 
 function App() {
 
-    const { state: { contract, accounts } } = useEth()
-    const [ownerAddress, setOwnerAddress] = useRecoilState(OwnerAddress)
+    const {isReady, watchingEvents, researchEvent,  action, account} = useRxWeb3()
+    const [ownerAddress, setOwnerAddress] = useState(undefined)
     const [workflow, setWorkflow] = useRecoilState(Workflow)
-    const [userAddress, setUserAddress] = useRecoilState(UserAddress)
     const [voters, setVoters] = useRecoilState(Voters)
-    const rule = useRecoilValue(UserRule)
-    const [newVoter, setNewVoter] = useState('')
-    const {eventVoterRegistered} = useUtilsEvents();
-    
-    // Load Owner Address and Current Address
+    const [newVoter, setNewVoter] = useState(undefined)
+
+    // Loading information when contract and account is ready
     useEffect(() => {
-        if (contract?.methods && accounts[0]){
-            // Load Current USer
-            setUserAddress(accounts[0].toLowerCase())
+        if (isReady){
+            // Grab the current workflowStatus level
+            action.workflowStatus().call({ from: account })
+                .then(value => setWorkflow(parseInt(value)))
 
-            // Load contract owner 
-            if (ownerAddress === null){
-                (async()=>{
-                    const owner = await contract.methods.owner().call({ from: accounts[0] })
-                    setOwnerAddress(owner.toLowerCase())
-                })()
-            }
+            // Grab the owner of contract
+            action.owner().call({ from: account })
+                .then(setOwnerAddress)
+
+            // Find all voters already registered
+            researchEvent('VoterRegistered',
+                (addresses)=>setVoters(addresses.map(voter => voter.returnValues.voterAddress.toLowerCase())))
+
+            // Subscription to WorkflowStatus changes
+            watchingEvents('WorkflowStatusChange', setWorkflow,
+                (wfs) => parseInt(wfs.newStatus))
+
+            // Subscription to WorkflowStatus changes
+            watchingEvents('VoterRegistered', setNewVoter,
+                (wfs) => wfs.voterAddress.toLowerCase())
         }
-    }, [contract, accounts])
+    }, [isReady])
 
+    // Pour fusionner les logs quand un nouveau arrive
+    useEffect(() =>{ newVoter && setVoters([...voters, newVoter]) }, [newVoter])
 
-    // Monitoring changes in status
-    useEffect(() => {
-        if (contract?.methods){
-            (async()=>{
-                const res = await contract.methods.workflowStatus().call({from : accounts[0]})
-                setWorkflow(res)
+    // ROUTING
+    if (isReady) {
+        let rule, component
+        if (account === ownerAddress) rule = 'president'
+        else if (voters.includes(account.toLowerCase())) rule = 'voter'
+        else rule = 'lost'
 
-                await contract.events.WorkflowStatusChange({fromBlock:"earliest"})
-                    .on('data', data => {
-                        console.log(data)
-                        setWorkflow(data.returnValues.newStatus)} )          
-                    .on('changed', changed => console.log('changed', changed))
-                    .on('error', err => console.log('err', err))
-                    .on('connected', str => console.log('connected', str))
-                    
-            })()
-        }
-    }, [contract, accounts])
-
-
-    // Voters added
-    useEffect(() => {
-        if (contract?.methods){
-            (async()=>{
-                console.log(voters)
-                if (voters.length === 0){
-                    const res = await contract.getPastEvents('VoterRegistered', { fromBlock: 0, toBlock: 'latest' })
-                    setVoters(res.map(voter => voter.returnValues.voterAddress.toLowerCase()))
-                
-                    await contract.events.VoterRegistered({fromBlock:"earliest"})
-                        .on('data', data => setNewVoter(data.returnValues.voterAddress.toLowerCase()))          
-                        .on('changed', changed => console.log('changed', changed))
-                        .on('error', err => console.log('err', err))
-                        .on('connected', str => console.log('connected', str))
-                }
-
-                if (newVoter !== '') setVoters([...voters, newVoter])
-
-            })()
-        }
-    }, [contract, accounts, newVoter])
-
-
-
-
-    let component;
-
-    
-    if (workflow === null) component = <Loading />
-    else{
         if (rule === 'voter'){
             switch (WORKFLOWSTATUS[workflow]){
                 case ('RegisteringVoters') : component = <Waiting />; break;
@@ -116,22 +80,26 @@ function App() {
         }else {
             component = <Identification />
         }
-    }
 
-    console.log("Every voter : ", voters)
-
-    return (
-        <>
-            <header>
-                <p>{`Etape : ${workflow}`}</p>
-                <p>{`User : ${userAddress} | Rule : ${rule}`}</p>
-            </header>
+        return (
+            <>
+                <header>
+                    <p>{`Etape : ${workflow}`}</p>
+                    <p>{`User : ${account} | Rule : ${rule}`}</p>
+                    <p>{`Owner : ${ownerAddress}`}</p>
+                </header>
+                <main>
+                    {component}
+                </main>
+            </>
+        )
+    }else{
+        return (
             <main>
-                {/* <ControlPanel/> */}
-                {component}
+                <Identification />
             </main>
-        </>
-    )
+        )
+    }
 }
 
 export default App
