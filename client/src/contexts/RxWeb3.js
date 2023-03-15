@@ -116,22 +116,21 @@ export const useRxWeb3 = () => {
     }, [])
 
     // RESEARCH EVENT
-    function  researchEvent (nameEvent, cb, blockNumber = 0) {
+    function  researchEvent (nameEvent, cb = (value) => value, blockNumber = 0) {
         deploymentObject.contract.getPastEvents(nameEvent, { fromBlock: blockNumber, toBlock: 'latest' })
+            .then(data => data.map(d => d.returnValues))
+            .then(data => data.map(d => Object.fromEntries(Object.entries(d).filter(([key, value]) => isNaN(key)))))
             .then(cb)
     }
 
     // WATCHING EVENT
     function watchingEvents(eventName, setData, cb=(value)=>value) {
         const eventObj = {}
-        console.log("Debug : ", eventName)
         
         eventObj[eventName] = new Observable(observer => {
                 deploymentObject.contract.events[eventName]({fromBlock:"earliest"})
                 .on('data', data => observer.next(data.returnValues))     
-                .on('changed', changed => console.log(eventName + ' changed', changed))
                 .on('error', err => console.log(eventName + ' err', err))
-                .on('connected', str => console.log(eventName + ' successful', str))
             })
 
         

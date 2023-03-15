@@ -13,12 +13,11 @@ import PresidentrVotingSession from './components/Pages/President/2_VotingSessio
 import VotesTallied from './components/Pages/VotesTallied';
 import RegisteringVoters from './components/Pages/President/0_RegisteringVoters/RegisteringVoters';
 import Identification from './components/Pages/Identification';
-import { IconDeviceAnalytics, IconDeviceAudioTape } from "@tabler/icons-react";
 import { Proposals } from "./provider/Proposals";
 
 function App() {
 
-    const {isReady, watchingEvents, researchEvent,  action, account, transform} = useRxWeb3()
+    const {isReady, watchingEvents, researchEvent,  action, account} = useRxWeb3()
     const [ownerAddress, setOwnerAddress] = useState(undefined)
     const [workflow, setWorkflow] = useRecoilState(Workflow)
     const [voters, setVoters] = useRecoilState(Voters)
@@ -26,6 +25,8 @@ function App() {
 
     const [newVoter, setNewVoter] = useState(undefined)
     const [newProposal, setNewProposal] = useState(undefined)
+
+    const [vote, setVote] = useState([])
 
     // Loading information when contract and account is ready
     useEffect(() => {
@@ -40,12 +41,23 @@ function App() {
 
             // Find all voters already registered
             researchEvent('VoterRegistered',
-                (addresses)=>setVoters(addresses.map(voter => voter.returnValues.voterAddress.toLowerCase())))
+                (addresses)=>setVoters(addresses.map(voter => voter.voterAddress.toLowerCase())))
             
             // Find all proposals already registered
             researchEvent('ProposalRegistered',
-                (proposals)=>convertProposal(proposals.map(proposal => parseInt(proposal.returnValues.proposalId))))
-
+                 (proposals)=>{
+                    convertProposal(proposals.map(proposal => parseInt(proposal.proposalId)))
+                    .then(prop => {
+                    // Find all votes already registered, nesting mandatory because of asynchronous data fetching
+                    researchEvent('Voted',
+                        (event)=>{
+                            const indexes =event.map(item => parseInt(parseInt(item.proposalId)))
+                            const newProposals = [...prop]
+                            for (let i of indexes) newProposals[i-1] = {...newProposals[i-1], count : newProposals[i-1].count + 1}
+                            setProposals(newProposals)
+                        })
+                    })
+                })
             // Subscription to change WorkflowStatus
             watchingEvents('WorkflowStatusChange', setWorkflow,
                 (wfs) => parseInt(wfs.newStatus))
@@ -57,24 +69,31 @@ function App() {
             // Subscription to add Proposal
             watchingEvents('ProposalRegistered', setNewProposal,
                 (id) => parseInt(id.proposalId))
+
+            // Subscription to vote
+            /* watchingEvents('Voted', setProposals,
+                (event) => proposals.map((p, index) => event.proposalId === index+1 ? {...p, count : p.count +1} : p)) */
+            watchingEvents('Voted', setVote,
+                (event) => console.log(event))
         }
     }, [isReady])
-
-
-    console.log('Proposals : ', proposals)
 
     // Pour fusionner les voters quand un nouveau arrive
     useEffect(() =>{ newVoter && setVoters([...voters, newVoter]) }, [newVoter])
     // Pour fusionner les proposals quand un nouveau arrive
     useEffect(() =>{
         newProposal && action.getOneProposal(newProposal).call({from : account})
-                        .then(data => setProposals([...proposals, data.description]))
+                        .then(data => setProposals([...proposals, {label : data.description, count : 0}]))
     }, [newProposal])
 
     async function convertProposal(arr){
         const proposalLabels = []
-        for (let id of arr) proposalLabels.push((await action.getOneProposal(id).call({from : account})).description)
+        for (let id of arr) proposalLabels.push({
+            label : (await action.getOneProposal(id).call({from : account})).description,
+            count : 0
+        })
         setProposals(proposalLabels)
+        return proposalLabels
     }
 
     const minifyStr = (str) => {
@@ -85,6 +104,10 @@ function App() {
         }
         return temporary
     }
+
+    console.log(proposals)
+
+
     // ROUTING AND RENDER
     if (isReady) {
         let rule, component

@@ -71,11 +71,6 @@ const ProposalsRegistration = () => {
                         </div>
                     )}
                 </div>
-                {globalProposals.length === 0 &&
-                    <Button onClick={onValidate} disabled={proposals.length === 0}>
-                        Enregister
-                    </Button>
-                }
             </div>
         </section>
     )
