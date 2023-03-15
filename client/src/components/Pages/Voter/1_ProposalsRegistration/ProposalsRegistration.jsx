@@ -13,7 +13,9 @@ const ProposalsRegistration = () => {
             onValidate, handleDelete    // Actions
           } = useProposalsRegistration()
 
-    console.log(globalProposals)
+    const existingProposals = globalProposals.map(proposal => proposal.toLowerCase())
+
+    console.log("Refresh")
 
     if (workFlowStatus === 2) return (
             <section>
@@ -24,7 +26,6 @@ const ProposalsRegistration = () => {
 
     if (workFlowStatus === 1) return (
         <section className={styles.zone}>
-            coucou
             <div className={styles.leftPart}>
                 <form onSubmit={onSubmit} className={styles.form}>
                             <div>
@@ -47,17 +48,31 @@ const ProposalsRegistration = () => {
                     {proposals.map(proposal =>
                         <div key={proposal.id} className={styles.item}>
                             <p className={styles.text}>{proposal.label}</p>
-                                {globalProposals.length === 0 &&
+                                <>
                                     <IconButton
+                                        icon = 'trash'
                                         className={styles.delete}
                                         onClick={() => handleDelete(proposal.id)}
+                                        disabled={existingProposals.includes(proposal.label.toLowerCase())}
                                     ></IconButton>
-                                }
+                                    <IconButton
+                                        icon = 'check'
+                                        className={styles.check}
+                                        onClick={() => onValidate(proposal.label)}
+                                        disabled={existingProposals.includes(proposal.label.toLowerCase())}
+                                    ></IconButton>
+                                    <IconButton
+                                        icon = 'checks'
+                                        className={styles.validate}
+                                        hidden={!existingProposals.includes(proposal.label.toLowerCase())}
+                                        disabled={true}
+                                    ></IconButton>
+                                </>
                         </div>
                     )}
                 </div>
                 {globalProposals.length === 0 &&
-                    <Button onClick={onValidate} isDisabled={proposals.length === 0}>
+                    <Button onClick={onValidate} disabled={proposals.length === 0}>
                         Enregister
                     </Button>
                 }

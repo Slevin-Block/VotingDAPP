@@ -8,7 +8,6 @@ import shortid from 'shortid'
 import { useRecoilValue } from 'recoil'
 import { Voters } from '../../../../provider/Voters'
 
-import {useUtilsFunctions} from '../../../../utils/UtilsFunctions'
 import {useRxWeb3} from '../../../../contexts/RxWeb3'
 export const useRegisteringVoters = () => {
 

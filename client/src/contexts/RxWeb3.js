@@ -122,7 +122,6 @@ export const useRxWeb3 = () => {
     }
 
     // WATCHING EVENT
-
     function watchingEvents(eventName, setData, cb=(value)=>value) {
         const eventObj = {}
         console.log("Debug : ", eventName)

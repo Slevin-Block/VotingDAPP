@@ -14,7 +14,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width : 40%;
+    width : 45%;
     height: 100%;
 }
 
@@ -23,7 +23,7 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    width : 40%;
+    width : 45%;
     height: 100%;
 }
 
@@ -51,9 +51,11 @@
 }
 
 .item{
+    position : relative;
     display: flex;
-    margin: 0.2rem;
+    margin: 0.5rem;
     justify-content: left;
+    width : 100%;
 }
 
 .text{
@@ -61,12 +63,44 @@
 }
 
 .delete{
-    background : var(--text);
-    display : flex;
-    justify-content: center;
-    align-items: center;
-    margin-left : 0.5rem;
-    border-radius: 50%;
-    width: 30px;
-    height : 30px;
+    position : absolute;
+    background : var(--error);
+    right : 36px;
+}
+.check{
+    position : absolute;
+    background : var(--valid);
+    right : 0;
+}
+
+.validate{
+    position : absolute;
+    background : var(--valid);
+    right : 18px;
+    animation : 1.4s appear forwards;
+    cursor: not-allowed;
+}
+
+@keyframes appear {
+    0%{
+        transform: scale(0);
+    }
+    60%{
+        background : var(--valid);
+        transform: scale(1);
+    }
+    100%{
+        background : var(--primary);
+    }
+}
+
+.delete:disabled{
+    transition : 1s transform;
+    transform: translateX(18px);
+
+}
+.check:disabled{
+    transition : 1s transform;
+    transform: translateX(-18px);
+
 }

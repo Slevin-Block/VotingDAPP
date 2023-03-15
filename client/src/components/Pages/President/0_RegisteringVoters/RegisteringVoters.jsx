@@ -10,8 +10,6 @@ const RegisteringVoters = () => {
             onValidate, handleDelete, startProposalsRegistering // Actions
           } = useRegisteringVoters()
 
-    console.log(globalVoters)
-
     return (
         <section className={styles.zone}>
             <div className={styles.leftPart}>
@@ -52,7 +50,7 @@ const RegisteringVoters = () => {
                                     icon = 'checks'
                                     className={styles.validate}
                                     hidden={!globalVoters.includes(voter.address)}
-                                    disabled
+                                    disabled={true}
                                 ></IconButton>
                             </>
                         </div>
