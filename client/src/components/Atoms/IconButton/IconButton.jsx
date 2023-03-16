@@ -1,4 +1,4 @@
-import { IconTrash, IconCheck, IconChecks, IconLink } from '@tabler/icons-react';
+import { IconTrash, IconCheck, IconLink } from '@tabler/icons-react';
 import styles from './IconButton.module.css'
 
 const IconButton = (allProps) => {
