@@ -1,0 +1,48 @@
+.header{
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+}
+
+.infos{
+    display : flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding : 0.5rem 1rem;
+}
+
+.title{
+    display : flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title > h1 {
+    font : bold 3em 'Nera';
+    background: var(--gradient-primary);
+    background-clip : text;
+    color : transparent;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.workflowGroup{
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: var(--on-background);
+    height : 3rem;
+}
+
+.workflow{
+    display: flex;
+    flex-direction: row;
+    color: var(--text);
+}
+
+
+.selected{
+    color: var(--primary);
+}

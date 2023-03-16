@@ -9,6 +9,7 @@ export const getSchema = (data) => {
                             .map(item => item.toLowerCase())
                             .includes(value.toLowerCase())
             )
+            .max(30, '30 caractères maximum')
             .required('Veuillez renseigner une proposition.')
     }).required();
 }

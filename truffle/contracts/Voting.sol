@@ -49,6 +49,11 @@ contract Voting is Ownable {
     event ProposalRegistered(uint proposalId);
     event Voted (address voter, uint proposalId);
 
+    constructor(){
+        // Only isRegistered without emit to keep clean events list
+        voters[msg.sender].isRegistered = true;
+    }
+
     modifier onlyVoters() {
         require(voters[msg.sender].isRegistered, "You're not a voter");
         _;

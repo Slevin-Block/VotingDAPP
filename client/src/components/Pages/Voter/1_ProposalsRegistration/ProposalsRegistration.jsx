@@ -13,14 +13,17 @@ const ProposalsRegistration = () => {
             onValidate, handleDelete    // Actions
           } = useProposalsRegistration()
 
-    const existingProposals = globalProposals.map(proposal => proposal.toLowerCase())
+    const existingProposals = globalProposals.map(proposal => proposal.label.toLowerCase())
 
     console.log("Refresh")
 
     if (workFlowStatus === 2) return (
             <section>
-                <p>Le président finalise l'enregistrement des propositions.</p>
-                <p>Il n'a pas encore démarré la session de vote</p>
+                <p className='annonce'>
+                    Le président finalise l'enregistrement des propositions.
+                    <br/>
+                    Il n'a pas encore démarré la session de vote
+                </p>
             </section>
     )
 
@@ -28,19 +31,18 @@ const ProposalsRegistration = () => {
         <section className={styles.zone}>
             <div className={styles.leftPart}>
                 <form onSubmit={onSubmit} className={styles.form}>
-                            <div>
-                                <label className='label'>Ajouter des propositions :</label>
-                                <Input
-                                    register = {register}
-                                    field = 'proposal'
-                                    placeholder='votre proposition'
-                                />
-                                {typeof errors.proposal?.message === "string" && <p className='error'>{errors.proposal?.message}</p>}
-                            </div>
-                            <Button type='submit' className={styles.button}>Ajouter</Button>
-                        </form>
-                     {/* <p className='lightAnnonce'>{`Merci pour l'ajout des ${globalProposals.length} proposition${globalProposals.length > 1 ?`s`:``}`}</p> */}
-                    
+                        <div>
+                            <label className='label'>Ajouter des propositions :</label>
+                            <Input
+                                register = {register}
+                                field = 'proposal'
+                                placeholder='votre proposition'
+                                onChange={()=> console.log("Coucou")}
+                            />
+                            {typeof errors.proposal?.message === "string" && <p className='error'>{errors.proposal?.message}</p>}
+                        </div>
+                        <Button type='submit' className={styles.button}>Ajouter</Button>
+                    </form>
             </div>
 
             <div className={styles.rightPart}>

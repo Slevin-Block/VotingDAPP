@@ -16,14 +16,17 @@ const ProposalsRegistration = () => {
     const closeRegistering = () => action.endProposalsRegistering().send({from : account})
     const startVoting = () => action.startVotingSession().send({from : account})
 
-    console.log()
+    console.log(proposals)
     return (
         <div className={styles.part}>
-                <p>Liste des propositions</p>
+                <p className='annonce'>Liste des propositions</p>
                 <div className={styles.list}>
-                    {proposals.map((proposal, i) =>
-                            <p key={i} className={styles.text}>{proposal.label}</p>
-                    )}
+                    {proposals.length > 0 ? proposals.map((proposal, i) =>
+                            <p key={i} className={styles.text}>{`> ${proposal.label}`}</p>
+                        )
+                    :
+                        <p className={`${styles.loader} label`}>en attente des propositions...</p>
+                    }
                 </div>
                 {(proposals.length > 0 && workFlowStatus ===1) &&
                     <Button onClick={closeRegistering} disabled={proposals.length === 0}>

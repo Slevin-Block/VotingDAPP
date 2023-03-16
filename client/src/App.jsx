@@ -14,6 +14,7 @@ import VotesTallied from './components/Pages/VotesTallied';
 import RegisteringVoters from './components/Pages/President/0_RegisteringVoters/RegisteringVoters';
 import Identification from './components/Pages/Identification';
 import { Proposals } from "./provider/Proposals";
+import Header from "./components/Pages/Header/Header";
 
 function App() {
 
@@ -48,14 +49,19 @@ function App() {
                  (proposals)=>{
                     convertProposal(proposals.map(proposal => parseInt(proposal.proposalId)))
                     .then(prop => {
-                    // Find all votes already registered, nesting mandatory because of asynchronous data fetching
-                    researchEvent('Voted',
-                        (event)=>{
-                            const indexes =event.map(item => parseInt(parseInt(item.proposalId)))
-                            const newProposals = [...prop]
-                            for (let i of indexes) newProposals[i-1] = {...newProposals[i-1], count : newProposals[i-1].count + 1}
-                            setProposals(newProposals)
-                        })
+
+                        // Find all votes already registered, nesting mandatory because of asynchronous data fetching
+                        researchEvent('Voted',
+                            (event)=>{
+                                try {
+                                    const indexes =event.map(item => parseInt(parseInt(item.proposalId)))
+                                    const newProposals = [...prop]
+                                    for (let i of indexes) newProposals[i-1] = {...newProposals[i-1], count : newProposals[i-1].count + 1}
+                                    setProposals(newProposals)
+                                }catch(err){
+                                    console.log('ERROR Voted :', err)
+                                }
+                            })
                     })
                 })
             // Subscription to change WorkflowStatus
@@ -87,23 +93,21 @@ function App() {
     }, [newProposal])
 
     async function convertProposal(arr){
-        const proposalLabels = []
-        for (let id of arr) proposalLabels.push({
-            label : (await action.getOneProposal(id).call({from : account})).description,
-            count : 0
-        })
-        setProposals(proposalLabels)
-        return proposalLabels
+        try{
+            const proposalLabels = []
+            console.log('Account : ',account)
+            for (let id of arr) proposalLabels.push({
+                label : (await action.getOneProposal(id).call({from : account})).description,
+                count : 0
+            })
+            setProposals(proposalLabels)
+            return proposalLabels
+        }catch(err){
+            console.log('ERR ConvertProposal : ', err)
+        }
     }
 
-    const minifyStr = (str) => {
-        let temporary = str
-        if (str) {
-            temporary = `${str.slice(0,6)}...${str.slice(-4)}`
-            temporary = temporary.toLowerCase()
-        }
-        return temporary
-    }
+    
 
     console.log(proposals)
 
@@ -141,11 +145,7 @@ function App() {
 
         return (
             <>
-                <header>
-                    <p>{`Etape : ${workflow}`}</p>
-                    <p>{`User : ${minifyStr(account)} | Rule : ${rule}`}</p>
-                    <p>{`Owner : ${minifyStr(ownerAddress)}`}</p>
-                </header>
+                <Header workflow={workflow}  account={account} ownerAddress={ownerAddress} rule={rule} />
                 <main>
                     {component}
                 </main>

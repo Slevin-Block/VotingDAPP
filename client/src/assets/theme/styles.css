@@ -46,7 +46,10 @@
 }
 
 header {
-    position : absolute;
+    background-color: var(--background);
+    width: 100vw;
+    height : 20vh;
+    
 }
 
 
@@ -57,7 +60,7 @@ main {
     align-items: center;
     background-color: var(--background);
     width: 100vw;
-    height : 100vh;
+    height : 80vh;
 }
 
 section {
@@ -67,7 +70,7 @@ section {
 }
 
 .annonce {
-    font : bold 4em "Tommy", sans-serif;
+    font : bold 2em "Tommy", sans-serif;
     color : var(--text);
     text-align: center;
 }
@@ -86,6 +89,7 @@ section {
     font : bold 1em "Tommy", sans-serif;
     color : var(--error);
 }
+
 
 p{
     color : white;

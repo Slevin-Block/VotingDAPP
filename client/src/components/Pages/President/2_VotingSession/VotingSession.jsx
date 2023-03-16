@@ -1,11 +1,16 @@
 import React from 'react'
+import { useRecoilValue } from 'recoil'
+import { Proposals } from '../../../../provider/Proposals'
 
 
 const VotingSession = ({ start }) => {
+    const proposals = useRecoilValue(Proposals)
     return (
         start ? (
             <section>
-                Les votants votent pour les propositions
+                {proposals.map((proposal, i) => 
+                    <div key={i}>{proposal.label} {proposal.count}</div>
+                )}
             </section>
         ) : (
             <section>
