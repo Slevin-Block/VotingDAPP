@@ -3,18 +3,16 @@ import ReactDOM from 'react-dom/client'
 import App from './App'
 import './assets/theme/styles.css'
 import { RecoilRoot } from 'recoil';
-import EthProvider from './contexts/EthContext/EthProvider';
 import { ChakraProvider } from '@chakra-ui/react';
 import { theme } from './assets/theme/theme';
+/* import App2 from './App2'; */
 
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <RecoilRoot>
-        <EthProvider>
-            <ChakraProvider theme={theme}>
-                <App />
-            </ChakraProvider>
-        </EthProvider>
+        <ChakraProvider theme={theme}>
+            <App />
+        </ChakraProvider>
     </RecoilRoot>
 )

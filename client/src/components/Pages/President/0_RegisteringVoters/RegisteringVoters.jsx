@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Button from '../../../Atoms/Button/Button'
 import IconButton from '../../../Atoms/IconButton/IconButton';
 import Input from '../../../Atoms/Input/Input';
@@ -14,6 +13,7 @@ const RegisteringVoters = () => {
     return (
         <section className={styles.zone}>
             <div className={styles.leftPart}>
+                <h2 className='title'>Inscription des votants</h2>
                 <form onSubmit={onSubmit} className={styles.form}>
                     <div>
                         <label className='label'>Ajouter des votants :</label>
@@ -51,7 +51,7 @@ const RegisteringVoters = () => {
                                     icon = 'checks'
                                     className={styles.validate}
                                     hidden={!globalVoters.includes(voter.address)}
-                                    disabled
+                                    disabled={true}
                                 ></IconButton>
                             </>
                         </div>

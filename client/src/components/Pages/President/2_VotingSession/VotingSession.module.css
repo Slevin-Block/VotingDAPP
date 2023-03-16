@@ -1,0 +1,48 @@
+.part, .partEnd {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    width: 40%;
+    height: 80%;
+}
+
+.partEnd {
+    justify-content: center;
+    gap : 2rem;
+}
+
+.proposals{
+    flex-grow : 1;
+    display : flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.oneProposal{
+    display: flex;
+    gap : 1rem;
+    align-items: center;
+    width : 300px;
+    justify-content: space-between;
+    background-color: var(--on-background);
+    padding : 0.4rem 0.7rem;
+    border-radius: 0.3rem;
+}
+
+.count{
+    border : 3px solid var(--primary);
+    width : 50px;
+    height : 50px;
+    display : flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.7rem;
+}
+
+ .winner{
+    border : 3px solid var(--valid);
+
+ }

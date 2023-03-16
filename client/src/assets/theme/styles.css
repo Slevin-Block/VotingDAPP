@@ -46,7 +46,10 @@
 }
 
 header {
-    position : absolute;
+    background-color: var(--background);
+    width: 100vw;
+    height : 20vh;
+    
 }
 
 
@@ -57,7 +60,7 @@ main {
     align-items: center;
     background-color: var(--background);
     width: 100vw;
-    height : 100vh;
+    height : 80vh;
 }
 
 section {
@@ -67,13 +70,18 @@ section {
 }
 
 .annonce {
-    font : bold 4em "Tommy", sans-serif;
+    font : bold 2em "Tommy", sans-serif;
     color : var(--text);
     text-align: center;
 }
 
 .lightAnnonce {
     font : bold 2em "Tommy", sans-serif;
+    color : var(--text);
+}
+
+.title{
+    font : bold 2.5em "Tommy", sans-serif;
     color : var(--text);
 }
 
@@ -87,6 +95,33 @@ section {
     color : var(--error);
 }
 
+
 p{
     color : white;
+}
+
+.loader, .loaderReverse{
+    text-align: center;
+    background: linear-gradient(90deg, rgba(5, 181, 212, 0.3) 0%, rgba(75, 102, 193, 1) 50%, rgba(5, 181, 212, 0.3) 100%);
+    background-size: 200% auto;
+
+    color: #000;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: loading 3s linear infinite;
+}
+
+.loaderReverse{
+    animation-direction : reverse;
+    animation-delay: 1.3s;
+}
+
+
+
+@keyframes loading {
+    to {
+        background-position: -200% center;
+    }
 }

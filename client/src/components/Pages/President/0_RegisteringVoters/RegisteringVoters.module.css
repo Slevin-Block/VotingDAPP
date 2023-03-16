@@ -12,10 +12,12 @@
 .leftPart{
     display : flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
-    width : 40%;
+    width : 45%;
     height: 100%;
+    background-color: var(--on-background);
+    border-radius: 0.3rem;
 }
 
 .rightPart{
@@ -23,13 +25,13 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    width : 28rem;
+    width : 45%;
     height: 100%;
 }
 
 .button{
     align-self: flex-end;
-    margin-top : 0.1rem;
+    margin-top : 0.4rem;
     right : 0;
     width : 100px;
 }

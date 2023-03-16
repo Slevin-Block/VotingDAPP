@@ -3,13 +3,14 @@
     border: 3px solid var(--primary);
     border-radius: 0.5rem;
     padding : 0.4rem 0.7rem;
-    transition : 0.3s background-color;
+    transition : 0.4s all;
     background-color: var(--primary);
 }
 
 .button:hover {
     border: 3px solid var(--primary);
-    transition : 0.3s background-color;
+    border-radius: 1.3rem;
+    /* transition : 0.3s background-color; */
     background-color: transparent;
 }
 
@@ -21,5 +22,6 @@
 .button:disabled{
     color : var(--primary);
     background-color: transparent;
+    border-radius: 0.5rem;
     border: 1px solid var(--primary);
 }

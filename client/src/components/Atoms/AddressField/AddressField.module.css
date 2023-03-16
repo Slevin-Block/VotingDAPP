@@ -1,0 +1,22 @@
+.field{
+    position : relative;
+    color : var(--text);
+    border: 3px solid var(--text);
+    border-radius: 0.7rem;
+    padding : 0.2rem;
+    padding-left : 1.3rem;
+    display: flex;
+    justify-content: center;
+    width: 9.5rem;
+    height: min-content;
+}
+
+
+
+.icon{
+    top : 3px;
+    left : 0.3rem;
+    position : absolute;
+    color : var(--primary);
+    stroke-width: 2px;
+}
