@@ -13,6 +13,7 @@ const RegisteringVoters = () => {
     return (
         <section className={styles.zone}>
             <div className={styles.leftPart}>
+                <h2 className='title'>Inscription des votants</h2>
                 <form onSubmit={onSubmit} className={styles.form}>
                     <div>
                         <label className='label'>Ajouter des votants :</label>

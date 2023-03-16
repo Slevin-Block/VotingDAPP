@@ -19,7 +19,7 @@ const ProposalsRegistration = () => {
 
     if (workFlowStatus === 2) return (
             <section>
-                <p className='annonce'>
+                <p className={`annonce loader`}>
                     Le président finalise l'enregistrement des propositions.
                     <br/>
                     Il n'a pas encore démarré la session de vote
@@ -30,6 +30,7 @@ const ProposalsRegistration = () => {
     if (workFlowStatus === 1) return (
         <section className={styles.zone}>
             <div className={styles.leftPart}>
+                <h2 className='title'>Faites des propositions</h2>
                 <form onSubmit={onSubmit} className={styles.form}>
                         <div>
                             <label className='label'>Ajouter des propositions :</label>

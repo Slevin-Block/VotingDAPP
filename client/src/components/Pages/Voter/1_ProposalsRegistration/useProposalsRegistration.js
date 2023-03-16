@@ -21,7 +21,7 @@ export const useProposalsRegistration = () => {
         defaultValues: {
             proposal: '',
         },
-        resolver: yupResolver(getSchema(proposals.length > 0 ? proposals.map(proposal => proposal?.label) : []))
+        resolver: yupResolver(getSchema([...globalProposals, ...proposals].map(proposal => proposal?.label.toLowerCase())))
     })
 
     const onSubmit = (data) => handleSubmit(({proposal}) => {

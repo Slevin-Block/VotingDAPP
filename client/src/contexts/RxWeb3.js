@@ -124,7 +124,7 @@ export const useRxWeb3 = () => {
     }
 
     // WATCHING EVENT
-    function watchingEvents(eventName, setData, cb=(value)=>value) {
+    function watchingEvent(eventName, setData, cb=(value)=>value) {
         const eventObj = {}
         
         eventObj[eventName] = new Observable(observer => {
@@ -145,7 +145,7 @@ export const useRxWeb3 = () => {
         return subscription
     }
 
-    return { ...data, action: data?.contract?.methods, researchEvent, watchingEvents }
+    return { ...data, action: data?.contract?.methods, researchEvent, watchingEvent }
 }
 
 

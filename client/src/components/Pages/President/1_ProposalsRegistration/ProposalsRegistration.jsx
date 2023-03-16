@@ -22,10 +22,14 @@ const ProposalsRegistration = () => {
                 <p className='annonce'>Liste des propositions</p>
                 <div className={styles.list}>
                     {proposals.length > 0 ? proposals.map((proposal, i) =>
-                            <p key={i} className={styles.text}>{`> ${proposal.label}`}</p>
+                            <div key={i} className={styles.proposition}>
+                                <p className={`loader ${styles.chevron}`}>{`>`}</p>
+                                <p  className={styles.text}>{proposal.label}</p>
+                                <p className={`loaderReverse ${styles.chevron}`}>{`<`}</p>
+                            </div>
                         )
                     :
-                        <p className={`${styles.loader} label`}>en attente des propositions...</p>
+                        <p className={`loader label`}>en attente des propositions...</p>
                     }
                 </div>
                 {(proposals.length > 0 && workFlowStatus ===1) &&

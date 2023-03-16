@@ -18,7 +18,7 @@ import Header from "./components/Pages/Header/Header";
 
 function App() {
 
-    const {isReady, watchingEvents, researchEvent,  action, account} = useRxWeb3()
+    const {isReady, watchingEvent, researchEvent,  action, account} = useRxWeb3()
     const [ownerAddress, setOwnerAddress] = useState(undefined)
     const [workflow, setWorkflow] = useRecoilState(Workflow)
     const [voters, setVoters] = useRecoilState(Voters)
@@ -26,8 +26,8 @@ function App() {
 
     const [newVoter, setNewVoter] = useState(undefined)
     const [newProposal, setNewProposal] = useState(undefined)
+    const [newVote, setNewVote] = useState(undefined)
 
-    const [vote, setVote] = useState([])
 
     // Loading information when contract and account is ready
     useEffect(() => {
@@ -65,37 +65,43 @@ function App() {
                     })
                 })
             // Subscription to change WorkflowStatus
-            watchingEvents('WorkflowStatusChange', setWorkflow,
+            watchingEvent('WorkflowStatusChange', setWorkflow,
                 (wfs) => parseInt(wfs.newStatus))
 
             // Subscription to add Voter
-            watchingEvents('VoterRegistered', setNewVoter,
+            watchingEvent('VoterRegistered', setNewVoter,
                 (wfs) => wfs.voterAddress.toLowerCase())
 
             // Subscription to add Proposal
-            watchingEvents('ProposalRegistered', setNewProposal,
+            watchingEvent('ProposalRegistered', setNewProposal,
                 (id) => parseInt(id.proposalId))
 
             // Subscription to vote
-            /* watchingEvents('Voted', setProposals,
-                (event) => proposals.map((p, index) => event.proposalId === index+1 ? {...p, count : p.count +1} : p)) */
-            watchingEvents('Voted', setVote,
-                (event) => console.log(event))
+            watchingEvent('Voted', setNewVote,
+                (event) => parseInt(event.proposalId))
         }
     }, [isReady])
 
     // Pour fusionner les voters quand un nouveau arrive
     useEffect(() =>{ newVoter && setVoters([...voters, newVoter]) }, [newVoter])
+    // Pour fusionner les votes quand un nouveau arrive
+    useEffect(() =>{ if (newVote){
+        let temporary = [...proposals]
+        console.log('$$$ temporary : ', temporary, newVote)
+        temporary[newVote-1] = {...temporary[newVote-1], count: temporary[newVote-1].count + 1}
+        console.log("$$TEMP", temporary)
+        setProposals(temporary)
+    }}, [newVote])
     // Pour fusionner les proposals quand un nouveau arrive
     useEffect(() =>{
         newProposal && action.getOneProposal(newProposal).call({from : account})
                         .then(data => setProposals([...proposals, {label : data.description, count : 0}]))
     }, [newProposal])
 
+
     async function convertProposal(arr){
         try{
             const proposalLabels = []
-            console.log('Account : ',account)
             for (let id of arr) proposalLabels.push({
                 label : (await action.getOneProposal(id).call({from : account})).description,
                 count : 0
@@ -107,11 +113,6 @@ function App() {
         }
     }
 
-    
-
-    console.log(proposals)
-
-
     // ROUTING AND RENDER
     if (isReady) {
         let rule, component
@@ -122,20 +123,20 @@ function App() {
         if (rule === 'voter'){
             switch (WORKFLOWSTATUS[workflow]){
                 case ('RegisteringVoters') : component = <Waiting />; break;
-                case ('ProposalsRegistrationStarted') : component = <VoterProposalsRegistration start={true} />; break;
-                case ('ProposalsRegistrationEnded') : component = <VoterProposalsRegistration start={false} />; break;
-                case ('VotingSessionStarted') : component = <VoterVotingSession start={true} />; break;
-                case ('VotingSessionEnded') : component = <VoterVotingSession start={false} />; break;
+                case ('ProposalsRegistrationStarted') : component = <VoterProposalsRegistration />; break;
+                case ('ProposalsRegistrationEnded') : component = <VoterProposalsRegistration />; break;
+                case ('VotingSessionStarted') : component = <VoterVotingSession />; break;
+                case ('VotingSessionEnded') : component = <VoterVotingSession />; break;
                 case ('VotesTallied') : component = <VotesTallied />; break;
                 default : component = <div>Erreur</div>
             }
         }else if (rule === 'president'){
             switch (WORKFLOWSTATUS[workflow]){
                 case ('RegisteringVoters') : component = <RegisteringVoters />; break;
-                case ('ProposalsRegistrationStarted') : component = <PresidentProposalsRegistration start={true} />; break;
-                case ('ProposalsRegistrationEnded') : component = <PresidentProposalsRegistration start={false} />; break;
-                case ('VotingSessionStarted') : component = <PresidentrVotingSession start={true} />; break;
-                case ('VotingSessionEnded') : component = <PresidentrVotingSession start={false} />; break;
+                case ('ProposalsRegistrationStarted') : component = <PresidentProposalsRegistration />; break;
+                case ('ProposalsRegistrationEnded') : component = <PresidentProposalsRegistration />; break;
+                case ('VotingSessionStarted') : component = <PresidentrVotingSession />; break;
+                case ('VotingSessionEnded') : component = <PresidentrVotingSession />; break;
                 case ('VotesTallied') : component = <VotesTallied />; break;
                 default : component = <div>Erreur</div>
             }

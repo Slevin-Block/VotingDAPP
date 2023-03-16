@@ -22,10 +22,6 @@ export const useRegisteringVoters = () => {
         resolver: yupResolver(getSchema(voters.length > 0 ? voters.map(voter => voter?.address) : []))
     })
 
-    useEffect(() => {
-        setVoters(globalVoters.map(voter => {return {id: shortid.generate(), address : voter.toLowerCase()}}))
-    }, [globalVoters])
-
     const onSubmit = (data) => handleSubmit(({address}) => {
         const newVoters = [...voters, { id: shortid.generate(), address : address.toLowerCase() }]
         setVoters(newVoters)
