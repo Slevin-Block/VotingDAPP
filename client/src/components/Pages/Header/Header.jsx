@@ -26,9 +26,9 @@ const minifyStr = (str) => {
             </div>
             <div className={styles.workflowGroup}>
                 {WORKFLOWSTATUS.map((wf, i) =>
-                    <p key={i} className={`${styles.workflow} ${workflow === i ? styles.selected : ''}`}>
+                    <div key={i} className={`${styles.workflow} ${workflow === i ? styles.selected : ''}`}>
                         {`${i}-${wf}`}
-                    </p>
+                    </div>
                 )}
             </div>
         </header>

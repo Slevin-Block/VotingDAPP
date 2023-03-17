@@ -3,8 +3,10 @@ const myContract = artifacts.require(`./${contractToDeploy}.sol`);
 
 module.exports = async (deployer) => {
         await deployer.deploy(myContract);
-        const blockNumber = await web3.eth.getBlockNumber();
-        const abi = [
+
+        // To add into the smart contract a method to obtain the blocknumber.
+        /* const blockNumber = await web3.eth.getBlockNumber(); */
+        /* const abi = [
             ...myContract.abi,
             {
                 "constant": true,
@@ -22,5 +24,5 @@ module.exports = async (deployer) => {
                 "blockNumber": blockNumber
             }
         ];
-        myContract.abi = abi;
+        myContract.abi = abi; */
 };

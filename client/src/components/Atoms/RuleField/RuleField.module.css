@@ -6,9 +6,10 @@
     padding : 0.2rem;
     padding-left : 1.3rem;
     display: flex;
+    height: 36px;
     justify-content: center;
     width: 9.5rem;
-    height: min-content;
+    /* height: min-content; */
 }
 
 

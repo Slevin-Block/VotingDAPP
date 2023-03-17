@@ -1,0 +1,67 @@
+.part {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 40%;
+    height: 80%;
+}
+
+.card {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.3rem;
+    text-align: center;
+    background-color: var(--on-background);
+    width: 300px;
+    height: 420px;
+    border-radius: 0.6rem;
+
+    animation: spotlight 15s linear infinite;
+    /* animation: 3s reveal linear infinite; */
+}
+
+.question{
+    position : absolute;
+    font : bold 6em "Tommy", sans-serif;
+    color : var(--text);
+    text-align: center;
+}
+
+.vanish{
+    transition: 1s transform;
+    transform: scale(0);
+}
+
+.winner{
+    position : absolute;
+    box-sizing: content-box;
+    width: 100%;
+    padding : 0.5rem;
+    font : bold 2em "Tommy", sans-serif;
+    color : var(--text);
+    transform: scale(0);
+}
+
+.appear{
+    transition: 3s transform;
+    transform: scale(1);
+}
+
+@keyframes spotlight {
+       0%{ box-shadow: rgba(255,255,255,0.4)   0    0   80px; }
+      12%{ box-shadow: rgba(255,255,255,0.4) -15px 10px 80px; }
+     16%{ box-shadow: rgba(255,255,255,0.4) -25px 6px  80px; }
+     25%{ box-shadow: rgba(255,255,255,0.4) -30px 0    80px; }
+     33%{ box-shadow: rgba(255,255,255,0.4) -25px -6px 80px; }
+     41%{ box-shadow: rgba(255,255,255,0.4) -15px 10px 80px; }
+     50%{ box-shadow: rgba(255,255,255,0.4)   0    0   80px; }
+     58%{ box-shadow: rgba(255,255,255,0.4)  15px 10px 80px; }
+     67%{ box-shadow: rgba(255,255,255,0.4)  25px 6px  80px; }
+     75%{ box-shadow: rgba(255,255,255,0.4)  30px 0    80px; }
+     83%{ box-shadow: rgba(255,255,255,0.4)  25px -6px 80px; }
+     91%{ box-shadow: rgba(255,255,255,0.4)  15px 10px 80px; }
+    100%{ box-shadow: rgba(255,255,255,0.4)   0    0   80px; }
+}

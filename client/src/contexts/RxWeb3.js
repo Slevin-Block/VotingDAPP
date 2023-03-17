@@ -88,7 +88,6 @@ function loadInformations(networkID, obj) {
     try {
         const address = temporary.artifact.networks[networkID].address;
         const abi = temporary.artifact.abi
-        temporary.blockNumber = abi.at(-1)?.blockNumber
         temporary.contractAddress = address
         temporary.contract = new web3.eth.Contract(abi, address);
     } catch (err) {
@@ -109,14 +108,20 @@ export const useRxWeb3 = () => {
     const [events, setEvents] = useState({})
     useEffect(() => {
         deploymentObject$.subscribe(data => {
-            if(data.contract === null || data.account === null ) data.isReady = false
-            else data.isReady = true
-            setData({ ...data })
+            (async() => {
+                if(data.contract === null || data.account === null ) data.isReady = false
+                else {
+                    const txhash = data.artifact.networks[data.networkID].transactionHash;
+                    const res = await web3.eth.getTransaction(txhash)
+                    data.blockNumber = res.blockNumber
+                    data.isReady = true
+                }
+                setData({ ...data })
+            })()
         })
     }, [])
-
     // RESEARCH EVENT
-    function  researchEvent (nameEvent, cb = (value) => value, blockNumber = 0) {
+    function  researchEvent (nameEvent, cb = (value) => value, blockNumber = data.blockNumber) {
         deploymentObject.contract.getPastEvents(nameEvent, { fromBlock: blockNumber, toBlock: 'latest' })
             .then(data => data.map(d => d.returnValues))
             .then(data => data.map(d => Object.fromEntries(Object.entries(d).filter(([key, value]) => isNaN(key)))))
@@ -144,6 +149,13 @@ export const useRxWeb3 = () => {
         setEvents({...events, ...eventObj})
         return subscription
     }
+
+    // EXPERIMENTAL,  would make it possible to do without WATCHING EVENT process (function + useState + useEffect)
+    /* function actionAndUpdate(method, param, event, setter, cb, account = account){
+        const tx = data.contract.methods[method].bind(this, ...param)({from :account})
+        let res = tx.events[event].returnValues
+        setter(cd ? cb(res) : res)
+    } */
 
     return { ...data, action: data?.contract?.methods, researchEvent, watchingEvent }
 }

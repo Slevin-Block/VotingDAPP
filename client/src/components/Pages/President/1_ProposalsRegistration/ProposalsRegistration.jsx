@@ -18,7 +18,7 @@ const ProposalsRegistration = () => {
 
     console.log(proposals)
     return (
-        <div className={styles.part}>
+        <section className={styles.part}>
                 <p className='annonce'>Liste des propositions</p>
                 <div className={styles.list}>
                     {proposals.length > 0 ? proposals.map((proposal, i) =>
@@ -44,7 +44,7 @@ const ProposalsRegistration = () => {
                 }
 
 
-            </div>
+            </section>
 
     )
 }
