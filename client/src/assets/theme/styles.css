@@ -119,9 +119,9 @@ p{
 }
 
 
-
 @keyframes loading {
     to {
         background-position: -200% center;
     }
 }
+

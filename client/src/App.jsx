@@ -10,7 +10,7 @@ import VoterProposalsRegistration from './components/Pages/Voter/1_ProposalsRegi
 import VoterVotingSession from './components/Pages/Voter/2_VotingSession/VotingSession';
 import PresidentProposalsRegistration from './components/Pages/President/1_ProposalsRegistration/ProposalsRegistration';
 import PresidentrVotingSession from './components/Pages/President/2_VotingSession/VotingSession';
-import VotesTallied from './components/Pages/VotesTallied';
+import VotesTallied from './components/Pages/VotesTallied/VotesTallied';
 import RegisteringVoters from './components/Pages/President/0_RegisteringVoters/RegisteringVoters';
 import Identification from './components/Pages/Identification';
 import { Proposals } from "./provider/Proposals";

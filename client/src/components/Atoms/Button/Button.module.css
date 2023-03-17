@@ -25,3 +25,9 @@
     border-radius: 0.5rem;
     border: 1px solid var(--primary);
 }
+.button:disabled:hover{
+    color : var(--primary);
+    background-color: transparent;
+    border-radius: 0.5rem;
+    border: 1px solid var(--primary);
+}

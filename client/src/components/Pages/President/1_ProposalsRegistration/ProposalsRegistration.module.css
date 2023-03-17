@@ -27,6 +27,7 @@
     justify-content: center;
     flex-direction: column;
     width: 100%;
+    gap : 1rem;
     flex-grow: 1;
 }
 
@@ -45,7 +46,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-left: 0.5rem;
+    margin-left: 0.8rem;
     border-radius: 50%;
     width: 30px;
     height: 30px;
@@ -53,6 +54,8 @@
 
 .proposition{
     display : flex;
+    border-radius: 0.3rem;
+    background-color: var(--on-background);
 }
 .proposition > * {
     display: flex;
@@ -63,4 +66,6 @@
 .chevron {
     font-weight: 900;
     font-size: 1.5rem;
+    padding-bottom: 0.28rem;
+    line-height: 40px;
 }
