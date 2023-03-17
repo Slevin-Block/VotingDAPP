@@ -2,8 +2,8 @@ import React from 'react'
 
 const Loading = () => {
   return (
-    <section>
-        <p className='annonce'>En attente de connection à la session de vote !</p>
+    <section classname='fullscreen'>
+        <p className='annonce loader'>En attente de connection à la session de vote !</p>
     </section>
   )
 }

@@ -87,9 +87,7 @@ function App() {
     // Pour fusionner les votes quand un nouveau arrive
     useEffect(() =>{ if (newVote){
         let temporary = [...proposals]
-        console.log('$$$ temporary : ', temporary, newVote)
         temporary[newVote-1] = {...temporary[newVote-1], count: temporary[newVote-1].count + 1}
-        console.log("$$TEMP", temporary)
         setProposals(temporary)
     }}, [newVote])
     // Pour fusionner les proposals quand un nouveau arrive
@@ -154,9 +152,12 @@ function App() {
         )
     }else{
         return (
-            <main>
-                <Identification />
-            </main>
+            <>
+                <Header workflow={undefined}  account={undefined} ownerAddress={undefined} rule={undefined} />
+                <main>
+                    <Identification />
+                </main>
+            </>
         )
     }
 }

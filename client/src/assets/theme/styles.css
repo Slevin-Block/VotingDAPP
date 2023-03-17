@@ -69,6 +69,11 @@ section {
     align-items: center;
 }
 
+.fullscreen{
+    width : 100%;
+    height : 80vh;
+}
+
 .annonce {
     font : bold 2em "Tommy", sans-serif;
     color : var(--text);
