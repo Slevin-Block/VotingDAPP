@@ -1,7 +1,7 @@
 # Links
-[Loom Dapp presentation](https://www.loom.com/share/5d9e3bdf2d6a47438ea5f833294ac981) __
-[Mumbai contract](https://mumbai.polygonscan.com/address/0x9c3e38ff10668506fff594d7465153e3d53496be) __
-[Vercel](https://voting-dapp-gilt.vercel.app/) __
+Loom presentation [Link](https://www.loom.com/share/5d9e3bdf2d6a47438ea5f833294ac981)
+Contract [Link](https://mumbai.polygonscan.com/address/0x9c3e38ff10668506fff594d7465153e3d53496be)
+Vercel [Link](https://voting-dapp-gilt.vercel.app/)
 
 # React Truffle Box
 
